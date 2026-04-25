@@ -45,6 +45,17 @@ ingress:
         - path: /
           pathType: Prefix
 
+# Safety Blocks (Required by Universal Chart)
+vault:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+monitoring:
+  enabled: false
+
 # Default environment variables
 env:
   NODE_ENV: "production"
+
