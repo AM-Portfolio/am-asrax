@@ -21,65 +21,19 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # ── Detect Changes ─────────────────────────────────────────────────────────
-  # Adapted from your reference, though currently one main module exists
-  detect-changes:
-    name: Detect Changes
-    runs-on: ubuntu-latest
-    outputs:
-      webapp: ${{ steps.check.outputs.webapp }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check for changes
-        id: check
-        run: |
-          # For a single module repo, we always build on relevant path changes
-          echo "webapp=true" >> $GITHUB_OUTPUT
-
-  # ── Build and Quality Check ────────────────────────────────────────────────
-  build:
-    name: Build & Quality Check
-    needs: detect-changes
-    if: needs.detect-changes.outputs.webapp == 'true'
-    runs-on: ubuntu-latest
+  publish-webapp:
+    name: Publish ASRAX Web
     permissions:
       contents: read
-    steps:
-      - uses: actions/checkout@v4
+      packages: write
+    uses: AM-Portfolio/am-pipelines/.github/workflows/central-build-publish.yml@develop
+    with:
+      language: "react"
+      working_directory: "."
+      image_name: "am-asrax-ui"
+      build_context: "."
+      dev_namespace: "am-apps-dev"
+      prod_namespace: "am-apps-prod"
+      deploy_prod: true
+    secrets: inherit
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Lint & Type Check
-        run: npm run lint
-
-      - name: Build Web Application
-        run: npm run build
-
-      - name: Upload Build Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: asrax-dist
-          path: dist/
-
-  # ── Publish / Deploy (Simulation of your workflow logic) ───────────────────
-  publish-web:
-    name: Publish Web App
-    needs: build
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish to Registry
-        run: |
-          echo "Publishing ASRAX Web App..."
-          echo "Target Namespace: am-apps-prod"
-          echo "Image Name: asrax-frontend"
