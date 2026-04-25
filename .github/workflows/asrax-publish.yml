@@ -8,6 +8,7 @@ on:
       - "public/**"
       - "package.json"
       - "vite.config.ts"
+      - "helm/**"
       - ".github/workflows/**"
   pull_request:
     branches: [ main ]
@@ -16,6 +17,7 @@ on:
       - "public/**"
       - "package.json"
       - "vite.config.ts"
+      - "helm/**"
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
