@@ -2,7 +2,7 @@
 ## Standardized for the AM-Portfolio Universal Chart
 
 replicaCount: 1
-port: 80
+port: 8080
 language: react
 
 image:
@@ -10,11 +10,11 @@ image:
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8080
 
 # Health probe configuration for Nginx
 probes:
-  port: 80
+  port: 8080
   liveness:
     path: /
     initialDelaySeconds: 15
