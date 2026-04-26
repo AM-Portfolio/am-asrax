@@ -42,7 +42,7 @@ export default function Home() {
               </motion.h1>
               
               <motion.p variants={itemVariants} className="text-xl text-slate-600 mb-10 leading-relaxed">
-                ASRAX Technologies builds secure, scalable, and intelligent financial applications that drive growth and streamline operations for modern businesses.
+                ASRAX Technologies builds secure, scalable, and innovative financial technology solutions that empower businesses to thrive in the digital economy.
               </motion.p>
               
               <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -18,7 +18,7 @@ export default function About() {
               About ASRAX Technologies
             </h1>
             <p className="text-xl text-slate-300 leading-relaxed">
-              We are a forward-thinking Fintech company dedicated to building the infrastructure that powers modern financial services.
+              Building the next generation of Fintech applications. We empower businesses with secure, scalable, and innovative financial technology solutions.
             </p>
           </motion.div>
         </div>
@@ -39,7 +39,7 @@ export default function About() {
               </div>
               <h2 className="text-3xl font-display font-bold text-slate-900 mb-4">Our Mission</h2>
               <p className="text-lg text-slate-600 leading-relaxed">
-                To democratize access to advanced financial tools by building secure, scalable, and intuitive technology solutions that empower businesses of all sizes to thrive in the digital economy.
+                To democratize access to advanced financial tools by building secure, scalable, and innovative technology solutions that empower businesses to thrive in the digital economy.
               </p>
             </motion.div>
             

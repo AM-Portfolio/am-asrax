@@ -7,7 +7,7 @@ export default function Careers() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 bg-brand-950 text-white overflow-hidden relative">
+      <section className="pt-32 pb-20 bg-slate-900 text-white overflow-hidden relative">
         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -16,14 +16,14 @@ export default function Careers() {
             transition={{ duration: 0.5 }}
             className="max-w-3xl"
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-brand-900 text-brand-200 text-sm font-medium mb-6 border border-brand-800">
+            <span className="inline-block px-3 py-1 rounded-full bg-slate-800 text-slate-200 text-sm font-medium mb-6 border border-slate-700">
               Join ASRAX Technologies
             </span>
             <h1 className="text-4xl lg:text-6xl font-display font-bold mb-6">
               Build the Future of Finance
             </h1>
             <p className="text-xl text-slate-300 leading-relaxed">
-              We're looking for passionate builders, thinkers, and innovators to join our mission in revolutionizing the Fintech industry.
+              We're looking for passionate builders, thinkers, and innovators to join our mission in revolutionizing the Fintech industry with secure, scalable, and innovative technology.
             </p>
           </motion.div>
         </div>
@@ -92,7 +92,7 @@ export default function Careers() {
               </p>
             </div>
             <div className="mt-6 md:mt-0">
-              <a href="mailto:careers@asrax.com" className="text-brand-600 font-medium hover:text-brand-700 flex items-center gap-2">
+              <a href="mailto:careers@asrax.in" className="text-brand-600 font-medium hover:text-brand-700 flex items-center gap-2">
                 Email us your resume <ArrowRight size={16} />
               </a>
             </div>
