@@ -26,8 +26,8 @@ export default function Subscription() {
         'Basic AI Portfolio Summary (1/mo)'
       ],
       cardClass: isDark 
-        ? 'bg-slate-900/60 border-slate-800 text-white' 
-        : 'bg-white/60 border-slate-200/80 text-slate-800 shadow-sm',
+        ? 'bg-slate-900/60 border-slate-800 text-white transition-all duration-300 hover:bg-slate-900/85' 
+        : 'bg-white/60 border-slate-200/80 text-slate-800 shadow-sm transition-all duration-300 hover:bg-white/85',
       textClass: isDark ? 'text-white' : 'text-slate-900',
       descriptionClass: isDark ? 'text-slate-400' : 'text-slate-500',
       buttonClass: isDark 
@@ -57,8 +57,8 @@ export default function Subscription() {
         'AI Trade Performance Analytics'
       ],
       cardClass: isDark 
-        ? 'bg-brand-950/20 border-brand-500/40 shadow-lg shadow-brand-500/5 text-white' 
-        : 'bg-white/80 border-brand-300 shadow-lg shadow-brand-500/5 text-slate-900',
+        ? 'bg-brand-950/20 border-brand-500/40 shadow-lg shadow-brand-500/5 text-white transition-all duration-300 hover:bg-brand-950/30' 
+        : 'bg-white/80 border-brand-300 shadow-lg shadow-brand-500/5 text-slate-900 transition-all duration-300 hover:bg-white',
       textClass: isDark ? 'text-white' : 'text-slate-900',
       descriptionClass: isDark ? 'text-slate-300' : 'text-slate-600',
       buttonClass: isDark 
@@ -89,8 +89,8 @@ export default function Subscription() {
         'AI Trade Setup Coach'
       ],
       cardClass: isDark 
-        ? 'bg-slate-900/60 border-purple-500/20 text-white' 
-        : 'bg-white/60 border-purple-300/80 text-slate-800 shadow-sm',
+        ? 'bg-slate-900/60 border-purple-500/20 text-white transition-all duration-300 hover:bg-slate-900/85' 
+        : 'bg-white/60 border-purple-300/80 text-slate-800 shadow-sm transition-all duration-300 hover:bg-white/85',
       textClass: isDark ? 'text-white' : 'text-slate-900',
       descriptionClass: isDark ? 'text-slate-400' : 'text-slate-500',
       buttonClass: isDark 
@@ -119,13 +119,13 @@ export default function Subscription() {
         'On-premise Deployment'
       ],
       cardClass: isDark 
-        ? 'bg-slate-900/40 border-slate-800 text-white' 
-        : 'bg-slate-50/60 border-slate-200 text-slate-800 shadow-sm',
+        ? 'bg-slate-900/40 border-slate-800 text-white transition-all duration-300 hover:bg-slate-900/60' 
+        : 'bg-slate-50/60 border-slate-200 text-slate-800 shadow-sm transition-all duration-300 hover:bg-slate-50/80',
       textClass: isDark ? 'text-white' : 'text-slate-900',
       descriptionClass: isDark ? 'text-slate-400' : 'text-slate-500',
       buttonClass: isDark 
         ? 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700' 
-        : 'bg-slate-800 text-white hover:bg-slate-900 border border-slate-800',
+        : 'bg-slate-850 text-slate-900 hover:bg-slate-200 border border-slate-200',
       iconClass: isDark ? 'text-slate-400' : 'text-slate-500',
       buttonText: 'Contact Sales',
       popular: false
@@ -229,8 +229,26 @@ export default function Subscription() {
                 key={plan.name}
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: planIdx * 0.05, duration: 0.4 }}
-                whileHover={{ y: -2 }}
+                whileHover={{ 
+                  y: -6, 
+                  scale: 1.015,
+                  borderColor: plan.name === 'Pro' 
+                    ? (isDark ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.8)')
+                    : plan.name === 'Premium'
+                    ? (isDark ? 'rgba(168, 85, 247, 0.8)' : 'rgba(168, 85, 247, 0.8)')
+                    : (isDark ? 'rgba(148, 163, 184, 0.5)' : 'rgba(100, 116, 139, 0.4)'),
+                  boxShadow: plan.name === 'Pro'
+                    ? (isDark ? '0 20px 30px -10px rgba(0,0,0,0.5), 0 0 30px 2px rgba(59, 130, 246, 0.2)' : '0 20px 30px -10px rgba(59, 130, 246, 0.1), 0 0 25px 0 rgba(59, 130, 246, 0.15)')
+                    : plan.name === 'Premium'
+                    ? (isDark ? '0 20px 30px -10px rgba(0,0,0,0.5), 0 0 30px 2px rgba(168, 85, 247, 0.2)' : '0 20px 30px -10px rgba(168, 85, 247, 0.1), 0 0 25px 0 rgba(168, 85, 247, 0.15)')
+                    : (isDark ? '0 20px 30px -10px rgba(0,0,0,0.4), 0 0 20px 0 rgba(148, 163, 184, 0.05)' : '0 20px 30px -10px rgba(148, 163, 184, 0.05), 0 0 20px 0 rgba(148, 163, 184, 0.08)')
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 300, 
+                  damping: 20,
+                  opacity: { delay: planIdx * 0.05, duration: 0.4 }
+                }}
                 className={`rounded-2xl p-4.5 border flex flex-col justify-start backdrop-blur-md relative ${plan.cardClass}`}
               >
                 {plan.popular && (
