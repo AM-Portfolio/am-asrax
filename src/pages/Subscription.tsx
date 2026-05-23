@@ -119,14 +119,14 @@ export default function Subscription() {
         'On-premise Deployment'
       ],
       cardClass: isDark 
-        ? 'bg-slate-900/40 border-slate-800 text-white transition-all duration-300 hover:bg-slate-900/60' 
-        : 'bg-slate-50/60 border-slate-200 text-slate-800 shadow-sm transition-all duration-300 hover:bg-slate-50/80',
+        ? 'bg-amber-950/10 border-amber-500/20 text-white transition-all duration-300 hover:bg-amber-950/20' 
+        : 'bg-amber-50/20 border-amber-200/60 text-slate-800 shadow-sm transition-all duration-300 hover:bg-amber-50/40',
       textClass: isDark ? 'text-white' : 'text-slate-900',
       descriptionClass: isDark ? 'text-slate-400' : 'text-slate-500',
       buttonClass: isDark 
-        ? 'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700' 
-        : 'bg-slate-850 text-slate-900 hover:bg-slate-200 border border-slate-200',
-      iconClass: isDark ? 'text-slate-400' : 'text-slate-500',
+        ? 'bg-amber-600/90 text-white hover:bg-amber-600 border border-amber-600/50 hover:shadow-md hover:shadow-amber-500/10' 
+        : 'bg-amber-600 text-white hover:bg-amber-700 shadow-md shadow-amber-500/10',
+      iconClass: isDark ? 'text-amber-400' : 'text-amber-600',
       buttonText: 'Contact Sales',
       popular: false
     }
@@ -236,11 +236,15 @@ export default function Subscription() {
                     ? (isDark ? 'rgba(59, 130, 246, 0.8)' : 'rgba(59, 130, 246, 0.8)')
                     : plan.name === 'Premium'
                     ? (isDark ? 'rgba(168, 85, 247, 0.8)' : 'rgba(168, 85, 247, 0.8)')
+                    : plan.name === 'Enterprise'
+                    ? (isDark ? 'rgba(245, 158, 11, 0.8)' : 'rgba(245, 158, 11, 0.8)')
                     : (isDark ? 'rgba(148, 163, 184, 0.5)' : 'rgba(100, 116, 139, 0.4)'),
                   boxShadow: plan.name === 'Pro'
                     ? (isDark ? '0 20px 30px -10px rgba(0,0,0,0.5), 0 0 30px 2px rgba(59, 130, 246, 0.2)' : '0 20px 30px -10px rgba(59, 130, 246, 0.1), 0 0 25px 0 rgba(59, 130, 246, 0.15)')
                     : plan.name === 'Premium'
                     ? (isDark ? '0 20px 30px -10px rgba(0,0,0,0.5), 0 0 30px 2px rgba(168, 85, 247, 0.2)' : '0 20px 30px -10px rgba(168, 85, 247, 0.1), 0 0 25px 0 rgba(168, 85, 247, 0.15)')
+                    : plan.name === 'Enterprise'
+                    ? (isDark ? '0 20px 30px -10px rgba(0,0,0,0.5), 0 0 30px 2px rgba(245, 158, 11, 0.2)' : '0 20px 30px -10px rgba(245, 158, 11, 0.1), 0 0 25px 0 rgba(245, 158, 11, 0.15)')
                     : (isDark ? '0 20px 30px -10px rgba(0,0,0,0.4), 0 0 20px 0 rgba(148, 163, 184, 0.05)' : '0 20px 30px -10px rgba(148, 163, 184, 0.05), 0 0 20px 0 rgba(148, 163, 184, 0.08)')
                 }}
                 transition={{ 
