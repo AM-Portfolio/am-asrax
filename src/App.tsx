@@ -1,42 +1,48 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Home from './pages/Home';
-import About from './pages/About';
-import Careers from './pages/Careers';
 import Subscription from './pages/Subscription';
-import Features from './pages/Features';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+
+function ScrollToHash() {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+    const hash = location.hash.replace('#', '');
+    if (!hash) return;
+    const t = window.setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+    return () => window.clearTimeout(t);
+  }, [location.pathname, location.hash]);
+  return null;
+}
 
 function AppContent() {
-  const { theme } = useTheme();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   return (
-    <div className={`flex flex-col min-h-screen font-sans transition-colors duration-300 ${
-      theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
-    }`}>
-      <Navbar />
+    <div className="flex min-h-screen flex-col bg-navy-950 font-sans text-slate-100">
+      <Navbar variant={isHome ? 'landing' : 'default'} />
+      <ScrollToHash />
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/careers" element={<Careers />} />
+          <Route path="/about" element={<Navigate to="/#about" replace />} />
+          <Route path="/features" element={<Navigate to="/#features" replace />} />
+          <Route path="/careers" element={<Navigate to="/#careers" replace />} />
           <Route path="/subscription" element={<Subscription />} />
         </Routes>
       </main>
-      <Footer />
     </div>
   );
 }
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <AppContent />
-      </Router>
-    </ThemeProvider>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
-

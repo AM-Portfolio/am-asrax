@@ -1,0 +1,16 @@
+# Prod overlay for am-asrax marketing site
+ingress:
+  enabled: true
+  className: "nginx"
+  hosts:
+    - host: asrax.in
+      paths:
+        - path: /
+          pathType: Prefix
+    - host: www.asrax.in
+      paths:
+        - path: /
+          pathType: Prefix
+
+env:
+  NODE_ENV: "production"
