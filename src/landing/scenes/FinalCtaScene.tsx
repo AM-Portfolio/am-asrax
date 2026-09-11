@@ -6,13 +6,14 @@ import { SceneHeadline } from '../ui/SceneHeadline';
 interface Props {
   content: ProductSceneContent;
   active: boolean;
+  sceneProgress?: number;
 }
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export function FinalCtaScene({ content, active }: Props) {
+export function FinalCtaScene({ content, active, sceneProgress = 1 }: Props) {
   return (
     <div className="flex h-full min-h-[100svh] w-full flex-col items-center justify-center bg-navy-950 px-6 text-center">
       <SceneHeadline
@@ -22,11 +23,16 @@ export function FinalCtaScene({ content, active }: Props) {
         title={content.title}
         body={content.body}
         active={active}
+        progress={sceneProgress}
       />
       <motion.div
         className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center"
         initial={false}
-        animate={active ? { opacity: 1, y: 0 } : { opacity: 0.5, y: 8 }}
+        animate={
+          active
+            ? { opacity: 0.35 + sceneProgress * 0.65, y: (1 - sceneProgress) * 16 }
+            : { opacity: 0.4, y: 8 }
+        }
         transition={{ duration: 0.4 }}
       >
         <motion.a

@@ -5,9 +5,22 @@ import type { ProductSceneContent } from '../content/products';
 interface Props {
   content: ProductSceneContent;
   active: boolean;
+  sceneProgress: number;
+  hideCopy?: boolean;
 }
 
-export function AiChatScene({ content, active }: Props) {
+export function AiChatScene({ content, active, sceneProgress, hideCopy = false }: Props) {
+  if (hideCopy) {
+    return (
+      <div className="flex h-full w-full items-center justify-end">
+        <div data-product-panel className="w-full max-w-xl lg:max-w-none lg:w-[min(100%,34rem)] xl:w-[min(100%,38rem)]">
+          <ProductMockAiChat active={active} progress={sceneProgress} />
+        </div>
+        <p className="sr-only">{content.srSummary}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid h-full w-full items-center gap-8 lg:grid-cols-2">
       <SceneHeadline
@@ -15,8 +28,9 @@ export function AiChatScene({ content, active }: Props) {
         title={content.title}
         body={content.body}
         active={active}
+        progress={sceneProgress}
       />
-      <ProductMockAiChat active={active} />
+      <ProductMockAiChat active={active} progress={sceneProgress} />
       <p className="sr-only">{content.srSummary}</p>
     </div>
   );

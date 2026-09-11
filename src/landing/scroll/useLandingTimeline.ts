@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { watchReducedMotion } from './prefersReducedMotion';
-import { PIN_SCROLL_VH, PIN_SCROLL_VH_COMPACT, sceneAtProgress } from './timelineConfig';
+import {
+  PIN_SCROLL_VH,
+  PIN_SCROLL_VH_COMPACT,
+  sceneAtProgress,
+  type SceneEnterDir,
+  type SceneExitDir,
+} from './timelineConfig';
 import type { ProductSceneId } from '../content/products';
 
 export interface LandingTimelineState {
@@ -8,6 +14,28 @@ export interface LandingTimelineState {
   activeScene: ProductSceneId;
   reducedMotion: boolean;
   pinActive: boolean;
+}
+
+const ENTER_X_PERCENT = 42;
+const EXIT_Y = -120;
+
+type MotionVars = Record<string, number | string>;
+
+function enterFrom(dir: SceneEnterDir): MotionVars {
+  if (dir === 'left') {
+    return { autoAlpha: 0, xPercent: -ENTER_X_PERCENT, x: 0, y: 24, scale: 0.985 };
+  }
+  if (dir === 'right') {
+    return { autoAlpha: 0, xPercent: ENTER_X_PERCENT, x: 0, y: 24, scale: 0.985 };
+  }
+  return { autoAlpha: 0, xPercent: 0, x: 0, y: 28, scale: 0.985 };
+}
+
+function exitTo(dir: SceneExitDir): MotionVars {
+  if (dir === 'up') {
+    return { autoAlpha: 0, xPercent: 0, x: 0, y: EXIT_Y, scale: 0.98, ease: 'none' };
+  }
+  return { autoAlpha: 0, xPercent: 0, x: 0, y: -16, scale: 0.99, ease: 'none' };
 }
 
 /**
@@ -84,7 +112,7 @@ export function useLandingTimeline(
               start: 'top top',
               end: `+=${vh}%`,
               pin: stage,
-              scrub: 0.65,
+              scrub: 0.75,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
@@ -93,6 +121,8 @@ export function useLandingTimeline(
                 setProgress(p);
                 setActiveScene(sceneAtProgress(p));
               },
+              onLeave: () => setPinActive(false),
+              onEnterBack: () => setPinActive(true),
             },
           });
 
@@ -102,7 +132,7 @@ export function useLandingTimeline(
               trigger: root,
               start: 'top top',
               end: `+=${vh}%`,
-              scrub: 0.65,
+              scrub: 0.75,
               invalidateOnRefresh: true,
             },
           });
@@ -110,7 +140,12 @@ export function useLandingTimeline(
           layers.forEach((layer) => {
             const start = Number(layer.dataset.start ?? 0);
             const end = Number(layer.dataset.end ?? 1);
-            const fade = Number(layer.dataset.fade ?? 0.04);
+            const fade = Number(layer.dataset.fade ?? 0.05);
+            const enter = (layer.dataset.enter ?? 'fade') as SceneEnterDir;
+            const exit = (layer.dataset.exit ?? 'fade') as SceneExitDir;
+            // Prefer product panel so sticky copy never rides the L/R → up slide
+            const panel = layer.querySelector('[data-product-panel]');
+            const target = (panel instanceof HTMLElement ? panel : layer) as HTMLElement;
             // Avoid translate/scale on the handshake layer — transforms freeze <video> in some browsers
             const isHandshake = start <= 0;
 
@@ -128,31 +163,43 @@ export function useLandingTimeline(
               return;
             }
 
-            gsap.set(layer, { autoAlpha: 0, y: 28, scale: 0.985 });
+            // Cap move duration so enter finishes before exit starts —
+            // otherwise product scenes never fully settle (stuck mid-slide).
+            const span = Math.max(0.001, end - start);
+            const move = Math.min(fade, span * 0.28);
+            const enterAt = Math.max(0, start);
+            const exitAt = Math.max(enterAt + move, end - move);
+
+            const from = enterFrom(enter);
+            gsap.set(target, from);
+            // Keep layer itself visible so layout holds; only the product slides
+            if (target !== layer) {
+              gsap.set(layer, { autoAlpha: 1, clearProps: 'transform' });
+            }
+
             tl.fromTo(
-              layer,
-              { autoAlpha: 0, y: 28, scale: 0.985 },
+              target,
+              from,
               {
                 autoAlpha: 1,
+                x: 0,
+                xPercent: 0,
                 y: 0,
                 scale: 1,
                 ease: 'none',
-                duration: Math.max(0.001, fade),
+                duration: Math.max(0.001, move),
                 immediateRender: false,
               },
-              Math.max(0, start - fade),
+              enterAt,
             );
 
             tl.to(
-              layer,
+              target,
               {
-                autoAlpha: 0,
-                y: -20,
-                scale: 0.99,
-                ease: 'none',
-                duration: Math.max(0.001, fade),
+                ...exitTo(exit),
+                duration: Math.max(0.001, move),
               },
-              end,
+              exitAt,
             );
           });
         });

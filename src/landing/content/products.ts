@@ -98,7 +98,7 @@ export const AI_CHAT_DEMO = {
 } as const;
 
 export const FEATURE_IMAGES = {
-  market: '/assets/products/market.png',
+  market: '/assets/products/market-overview.png',
   portfolio: '/assets/products/portfolio.jpg',
   journal: '/assets/products/trade-journal.jpg',
   dashboard: '/assets/products/dashboard.png',
@@ -108,7 +108,8 @@ export const PRODUCT_SHOTS = {
   dashboard: '/assets/products/dashboard.png',
   portfolio: '/assets/products/portfolio.jpg',
   trade: '/assets/products/trade-journal.jpg',
-  market: '/assets/products/market.png',
+  market: '/assets/products/market-overview.png',
+  marketWatchlist: '/assets/products/market-watchlist.jpg',
 } as const;
 
 export const HANDSHAKE_VIDEO = {
