@@ -66,7 +66,7 @@ export function SceneHeadline({
         }}
         transition={{ duration: 0.32, ease }}
       >
-        <Tag className="font-display text-3xl font-bold leading-tight tracking-tight text-white md:text-4xl lg:text-5xl">
+        <Tag className="font-display text-3xl font-semibold leading-[1.1] tracking-[-0.02em] text-white md:text-4xl lg:text-[2.75rem]">
           {title}
         </Tag>
       </motion.div>

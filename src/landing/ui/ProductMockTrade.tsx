@@ -4,9 +4,10 @@ import { ProductScreenshot } from './ProductScreenshot';
 interface Props {
   progress?: number;
   active?: boolean;
+  stageFill?: boolean;
 }
 
-export function ProductMockTrade({ progress = 1, active = true }: Props) {
+export function ProductMockTrade({ progress = 1, active = true, stageFill = false }: Props) {
   return (
     <ProductScreenshot
       title="Trade journal"
@@ -14,7 +15,8 @@ export function ProductMockTrade({ progress = 1, active = true }: Props) {
       alt="ASRAX trade journal — trade detail, templates, analytics, and metrics"
       progress={progress}
       active={active}
-      motion="tilt"
+      stageFill={stageFill}
+      motion="kenBurns"
       chips={[
         { label: 'Journal', tone: 'sky' },
         { label: 'Calendar', tone: 'amber' },

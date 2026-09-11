@@ -10,41 +10,43 @@ export interface SceneSegment {
 export type SceneEnterDir = 'fade' | 'left' | 'right';
 export type SceneExitDir = 'fade' | 'up';
 
+/**
+ * Reference-video rhythm: morph / crossfade only — no L/R product slides.
+ */
 export const SCENE_MOTION: Record<
   ProductSceneId,
   { enter: SceneEnterDir; exit: SceneExitDir; fade: number }
 > = {
-  handshake: { enter: 'fade', exit: 'fade', fade: 0.035 },
-  network: { enter: 'fade', exit: 'up', fade: 0.04 },
-  // Keep fade << segment span so scenes fully settle before exiting up
-  dashboard: { enter: 'left', exit: 'up', fade: 0.035 },
-  portfolio: { enter: 'right', exit: 'up', fade: 0.035 },
-  trade: { enter: 'left', exit: 'up', fade: 0.035 },
-  market: { enter: 'right', exit: 'up', fade: 0.035 },
-  aiChat: { enter: 'left', exit: 'up', fade: 0.035 },
+  handshake: { enter: 'fade', exit: 'fade', fade: 0.04 },
+  network: { enter: 'fade', exit: 'fade', fade: 0.045 },
+  dashboard: { enter: 'fade', exit: 'fade', fade: 0.045 },
+  portfolio: { enter: 'fade', exit: 'fade', fade: 0.045 },
+  trade: { enter: 'fade', exit: 'fade', fade: 0.045 },
+  market: { enter: 'fade', exit: 'fade', fade: 0.045 },
+  aiChat: { enter: 'fade', exit: 'fade', fade: 0.045 },
   cta: { enter: 'fade', exit: 'fade', fade: 0.04 },
 };
 
 /**
  * Progress map 0–1 for the pinned story stage.
- * Product beats are longer so in-scene scrub has room to breathe.
+ * Product beats hold longer for word → visual settle.
  */
 export const SCENE_SEGMENTS: SceneSegment[] = [
   { id: 'handshake', start: 0.0, end: 0.14 },
-  { id: 'network', start: 0.14, end: 0.22 },
-  { id: 'dashboard', start: 0.22, end: 0.38 },
-  { id: 'portfolio', start: 0.38, end: 0.54 },
-  { id: 'trade', start: 0.54, end: 0.68 },
-  { id: 'market', start: 0.68, end: 0.82 },
-  { id: 'aiChat', start: 0.82, end: 0.92 },
-  { id: 'cta', start: 0.92, end: 1.0 },
+  { id: 'network', start: 0.14, end: 0.24 },
+  { id: 'dashboard', start: 0.24, end: 0.4 },
+  { id: 'portfolio', start: 0.4, end: 0.56 },
+  { id: 'trade', start: 0.56, end: 0.7 },
+  { id: 'market', start: 0.7, end: 0.84 },
+  { id: 'aiChat', start: 0.84, end: 0.93 },
+  { id: 'cta', start: 0.93, end: 1.0 },
 ];
 
 /** Viewport heights of scroll for the pinned story (desktop). */
-export const PIN_SCROLL_VH = 780;
+export const PIN_SCROLL_VH = 820;
 
 /** Shorter pin distance on smaller viewports when pin is enabled. */
-export const PIN_SCROLL_VH_COMPACT = 580;
+export const PIN_SCROLL_VH_COMPACT = 600;
 
 export function sceneAtProgress(progress: number): ProductSceneId {
   const p = Math.min(1, Math.max(0, progress));

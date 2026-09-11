@@ -12,8 +12,8 @@ interface Props {
 export function AiChatScene({ content, active, sceneProgress, hideCopy = false }: Props) {
   if (hideCopy) {
     return (
-      <div className="flex h-full w-full items-center justify-end">
-        <div data-product-panel className="w-full max-w-xl lg:max-w-none lg:w-[min(100%,34rem)] xl:w-[min(100%,38rem)]">
+      <div data-product-panel className="flex h-full w-full items-center justify-center p-6 md:p-8">
+        <div className="w-full max-w-2xl">
           <ProductMockAiChat active={active} progress={sceneProgress} />
         </div>
         <p className="sr-only">{content.srSummary}</p>

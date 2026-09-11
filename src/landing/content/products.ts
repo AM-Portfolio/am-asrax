@@ -24,6 +24,8 @@ export interface ProductSceneContent {
   eyebrow: string;
   title: string;
   body: string;
+  /** Giant cinematic word (MachinaFusion-style beat) — optional */
+  heroWord?: string;
   /** Screen-reader summary of the visual */
   srSummary: string;
 }
@@ -41,6 +43,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'Intelligence',
     title: 'Energy becomes clarity.',
     body: 'Scattered signals organize into a living network — your financial world, mapped.',
+    heroWord: 'CLARITY',
     srSummary: 'An energy network of nodes coalescing into organized intelligence.',
   },
   {
@@ -48,6 +51,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'Dashboard',
     title: 'See everything.',
     body: "One place to see how you're doing today — movers, news, and the pulse of your book.",
+    heroWord: 'SEE',
     srSummary: 'Dashboard mock with KPIs, top movers, and a news strip.',
   },
   {
@@ -55,6 +59,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'Portfolio',
     title: 'Understand what you own.',
     body: 'Holdings, allocation, and baskets — so concentration and opportunity are obvious.',
+    heroWord: 'OWN',
     srSummary: 'Portfolio view with holdings list, allocation, and heatmap hints.',
   },
   {
@@ -62,6 +67,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'Trade journal',
     title: 'Learn from every decision.',
     body: 'Journal, calendar, and metrics that help you improve — not a broker execution desk.',
+    heroWord: 'LEARN',
     srSummary: 'Trade journal calendar and performance metrics. Not order execution.',
   },
   {
@@ -69,6 +75,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'Market',
     title: 'Explore beyond the noise.',
     body: 'Indices, ETFs, and research frames that keep the bigger picture in view.',
+    heroWord: 'EXPLORE',
     srSummary: 'Market exploration with indices and research-oriented frames.',
   },
   {
@@ -76,6 +83,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     eyebrow: 'AI Chat',
     title: "Don't search. Just ask.",
     body: 'Ask in plain language. Get portfolio summary, movers, holdings, and allocation — together.',
+    heroWord: 'ASK',
     srSummary: 'AI chat with converging product widgets answering a portfolio question.',
   },
   {
@@ -101,11 +109,11 @@ export const FEATURE_IMAGES = {
   market: '/assets/products/market-overview.png',
   portfolio: '/assets/products/portfolio.jpg',
   journal: '/assets/products/trade-journal.jpg',
-  dashboard: '/assets/products/dashboard.png',
+  dashboard: '/assets/products/dashboard-home.png',
 } as const;
 
 export const PRODUCT_SHOTS = {
-  dashboard: '/assets/products/dashboard.png',
+  dashboard: '/assets/products/dashboard-home.png',
   portfolio: '/assets/products/portfolio.jpg',
   trade: '/assets/products/trade-journal.jpg',
   market: '/assets/products/market-overview.png',

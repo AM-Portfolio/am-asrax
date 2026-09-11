@@ -12,15 +12,14 @@ interface NetworkSceneProps {
 
 export function NetworkScene({ content, active, progress, hideCopy = false }: NetworkSceneProps) {
   const local = segmentProgress(progress, 'network');
-  const energy = active ? Math.max(local, 0.2) : 0.15;
+  const energy = active ? Math.max(local, 0.25) : 0.15;
 
   const visual = (
     <div
       data-product-panel
-      className="relative aspect-[5/3] w-full overflow-hidden rounded-2xl border border-electric-sky/15 bg-navy-900/40"
+      className="relative h-full min-h-[280px] w-full overflow-hidden bg-navy-950"
       style={{
-        boxShadow: `0 0 ${24 + energy * 48}px rgba(56,189,248,${0.08 + energy * 0.22})`,
-        transform: `scale(${0.96 + energy * 0.04})`,
+        boxShadow: `inset 0 0 ${40 + energy * 60}px rgba(56,189,248,${0.06 + energy * 0.2})`,
       }}
     >
       <EnergyNetwork progress={energy} />
@@ -29,12 +28,10 @@ export function NetworkScene({ content, active, progress, hideCopy = false }: Ne
 
   if (hideCopy) {
     return (
-      <div className="flex h-full w-full items-center justify-end">
-        <div className="w-full max-w-xl lg:max-w-none lg:w-[min(100%,34rem)] xl:w-[min(100%,38rem)]">
-          {visual}
-        </div>
+      <>
+        {visual}
         <p className="sr-only">{content.srSummary}</p>
-      </div>
+      </>
     );
   }
 
@@ -47,7 +44,9 @@ export function NetworkScene({ content, active, progress, hideCopy = false }: Ne
         active={active}
         progress={local}
       />
-      {visual}
+      <div className="relative aspect-[5/3] w-full overflow-hidden rounded-2xl border border-electric-sky/15">
+        {visual}
+      </div>
       <p className="sr-only">{content.srSummary}</p>
     </div>
   );

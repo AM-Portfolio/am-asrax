@@ -12,13 +12,8 @@ interface Props {
 export function MarketScene({ content, active, sceneProgress, hideCopy = false }: Props) {
   if (hideCopy) {
     return (
-      <div className="flex h-full w-full items-center justify-end">
-        <div
-          data-product-panel
-          className="max-h-[78vh] w-full max-w-xl overflow-y-auto pr-1 [scrollbar-width:thin] lg:max-w-none lg:w-[min(100%,36rem)] xl:w-[min(100%,40rem)]"
-        >
-          <ProductMockMarket progress={sceneProgress} active={active} />
-        </div>
+      <div data-product-panel className="h-full w-full overflow-hidden">
+        <ProductMockMarket progress={sceneProgress} active={active} stageFill />
         <p className="sr-only">{content.srSummary}</p>
       </div>
     );

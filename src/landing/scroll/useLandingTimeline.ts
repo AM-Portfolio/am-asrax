@@ -16,26 +16,24 @@ export interface LandingTimelineState {
   pinActive: boolean;
 }
 
-const ENTER_X_PERCENT = 42;
-const EXIT_Y = -120;
-
 type MotionVars = Record<string, number | string>;
 
+/** Soft morph like the reference — scale + fade, no lateral slides. */
 function enterFrom(dir: SceneEnterDir): MotionVars {
   if (dir === 'left') {
-    return { autoAlpha: 0, xPercent: -ENTER_X_PERCENT, x: 0, y: 24, scale: 0.985 };
+    return { autoAlpha: 0, xPercent: -12, x: 0, y: 10, scale: 0.96 };
   }
   if (dir === 'right') {
-    return { autoAlpha: 0, xPercent: ENTER_X_PERCENT, x: 0, y: 24, scale: 0.985 };
+    return { autoAlpha: 0, xPercent: 12, x: 0, y: 10, scale: 0.96 };
   }
-  return { autoAlpha: 0, xPercent: 0, x: 0, y: 28, scale: 0.985 };
+  return { autoAlpha: 0, xPercent: 0, x: 0, y: 14, scale: 0.94 };
 }
 
 function exitTo(dir: SceneExitDir): MotionVars {
   if (dir === 'up') {
-    return { autoAlpha: 0, xPercent: 0, x: 0, y: EXIT_Y, scale: 0.98, ease: 'none' };
+    return { autoAlpha: 0, xPercent: 0, x: 0, y: -36, scale: 1.02, ease: 'none' };
   }
-  return { autoAlpha: 0, xPercent: 0, x: 0, y: -16, scale: 0.99, ease: 'none' };
+  return { autoAlpha: 0, xPercent: 0, x: 0, y: -8, scale: 1.03, ease: 'none' };
 }
 
 /**
@@ -112,7 +110,7 @@ export function useLandingTimeline(
               start: 'top top',
               end: `+=${vh}%`,
               pin: stage,
-              scrub: 0.75,
+              scrub: 0.85,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
@@ -132,7 +130,7 @@ export function useLandingTimeline(
               trigger: root,
               start: 'top top',
               end: `+=${vh}%`,
-              scrub: 0.75,
+              scrub: 0.85,
               invalidateOnRefresh: true,
             },
           });
@@ -143,10 +141,8 @@ export function useLandingTimeline(
             const fade = Number(layer.dataset.fade ?? 0.05);
             const enter = (layer.dataset.enter ?? 'fade') as SceneEnterDir;
             const exit = (layer.dataset.exit ?? 'fade') as SceneExitDir;
-            // Prefer product panel so sticky copy never rides the L/R → up slide
             const panel = layer.querySelector('[data-product-panel]');
             const target = (panel instanceof HTMLElement ? panel : layer) as HTMLElement;
-            // Avoid translate/scale on the handshake layer — transforms freeze <video> in some browsers
             const isHandshake = start <= 0;
 
             if (isHandshake) {
@@ -163,16 +159,13 @@ export function useLandingTimeline(
               return;
             }
 
-            // Cap move duration so enter finishes before exit starts —
-            // otherwise product scenes never fully settle (stuck mid-slide).
             const span = Math.max(0.001, end - start);
-            const move = Math.min(fade, span * 0.28);
+            const move = Math.min(fade, span * 0.3);
             const enterAt = Math.max(0, start);
             const exitAt = Math.max(enterAt + move, end - move);
 
             const from = enterFrom(enter);
             gsap.set(target, from);
-            // Keep layer itself visible so layout holds; only the product slides
             if (target !== layer) {
               gsap.set(layer, { autoAlpha: 1, clearProps: 'transform' });
             }

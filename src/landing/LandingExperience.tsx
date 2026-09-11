@@ -115,22 +115,18 @@ function useIsDesktopPin() {
 function SceneShell({
   id,
   children,
-  productOnly,
+  inFrame,
 }: {
   id: ProductSceneId;
   children: ReactNode;
-  productOnly?: boolean;
+  inFrame?: boolean;
 }) {
   const fullBleed = id === 'handshake' || id === 'cta';
   if (fullBleed) {
     return <div className="h-full w-full">{children}</div>;
   }
-  if (productOnly) {
-    return (
-      <div className="mx-auto flex h-full w-full max-w-6xl items-center justify-end px-6 py-24 lg:px-10">
-        {children}
-      </div>
-    );
+  if (inFrame) {
+    return <div className="h-full w-full overflow-hidden">{children}</div>;
   }
   return (
     <div className="mx-auto flex h-full w-full max-w-6xl items-center px-6 py-24 lg:px-10">
@@ -139,7 +135,6 @@ function SceneShell({
   );
 }
 
-/** Continues the story after the pin: About → Features → Careers → Footer */
 function Continuations() {
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
@@ -181,6 +176,12 @@ export default function LandingExperience() {
   const stacked = reducedMotion || !isDesktop;
   const stickyCopyVisible =
     pinActive && STICKY_COPY_SCENES.includes(activeScene) && progress < 0.92;
+  const showStageFrame = stickyCopyVisible;
+
+  const frameScenes = SCENE_SEGMENTS.filter((s) => STICKY_COPY_SCENES.includes(s.id));
+  const bleedScenes = SCENE_SEGMENTS.filter(
+    (s) => s.id === 'handshake' || s.id === 'cta',
+  );
 
   return (
     <div ref={rootRef} className="landing-root relative bg-navy-950 text-white">
@@ -221,26 +222,74 @@ export default function LandingExperience() {
       ) : (
         <>
           <div ref={stageRef} id="landing-main" className="relative min-h-[100svh] overflow-hidden">
-            {/* Soft stage atmosphere */}
+            {/* Soft depth atmosphere (reference video blob / vignette) */}
             <div
-              className="pointer-events-none absolute inset-0 opacity-70"
+              className="pointer-events-none absolute inset-0"
               aria-hidden
               style={{
                 background:
-                  'radial-gradient(ellipse 55% 45% at 72% 48%, rgba(56,189,248,0.10), transparent 70%), radial-gradient(ellipse 40% 35% at 18% 55%, rgba(14,165,233,0.06), transparent 65%)',
+                  'radial-gradient(ellipse 75% 60% at 50% 45%, rgba(148,163,184,0.09), transparent 65%), radial-gradient(ellipse 45% 40% at 72% 48%, rgba(56,189,248,0.1), transparent 70%), radial-gradient(ellipse 40% 35% at 20% 55%, rgba(14,165,233,0.06), transparent 62%)',
               }}
             />
-
-            <StickySceneCopy
-              activeScene={activeScene}
-              progress={progress}
-              visible={stickyCopyVisible}
+            <div
+              className="pointer-events-none absolute left-1/2 top-[46%] h-[58vmin] w-[72vmin] -translate-x-1/2 -translate-y-1/2 rounded-[48%] bg-white/[0.035] blur-3xl"
+              aria-hidden
             />
 
-            <div className="relative h-[100svh] w-full">
-              {SCENE_SEGMENTS.map((seg) => {
+            {/* Floating cinematic stage frame — product morphs inside */}
+            <div
+              className="absolute inset-0 flex items-center justify-center px-5 pb-14 pt-8 md:px-10 md:pb-16 md:pt-10"
+              aria-hidden={!showStageFrame}
+              style={{
+                opacity: showStageFrame ? 1 : 0,
+                transition: 'opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
+                pointerEvents: showStageFrame ? 'auto' : 'none',
+              }}
+            >
+              <div
+                className="relative aspect-[3/2] w-full max-w-5xl max-h-[min(68svh,640px)] overflow-hidden rounded-[1.75rem] border border-white/12 bg-navy-950 shadow-[0_40px_120px_rgba(0,0,0,0.55),0_0_80px_rgba(56,189,248,0.08)]"
+                style={{
+                  boxShadow:
+                    '0 40px 120px rgba(0,0,0,0.55), 0 0 100px rgba(56,189,248,0.1), inset 0 1px 0 rgba(255,255,255,0.06)',
+                }}
+              >
+                <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-navy-950/25 via-transparent to-navy-950/15" />
+                {frameScenes.map((seg) => {
+                  const motion = SCENE_MOTION[seg.id];
+                  return (
+                    <div
+                      key={seg.id}
+                      data-scene-layer
+                      data-start={seg.start}
+                      data-end={seg.end}
+                      data-fade={motion.fade}
+                      data-enter={motion.enter}
+                      data-exit={motion.exit}
+                      className="absolute inset-0"
+                      style={{
+                        pointerEvents: activeScene === seg.id ? 'auto' : 'none',
+                      }}
+                      aria-hidden={activeScene !== seg.id}
+                    >
+                      <SceneShell id={seg.id} inFrame>
+                        <SceneBody
+                          id={seg.id}
+                          active={activeScene === seg.id}
+                          progress={progress}
+                          reducedMotion={false}
+                          hideCopy
+                        />
+                      </SceneShell>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Full-bleed beats (handshake + CTA) */}
+            <div className="relative z-20 h-[100svh] w-full">
+              {bleedScenes.map((seg) => {
                 const motion = SCENE_MOTION[seg.id];
-                const productOnly = STICKY_COPY_SCENES.includes(seg.id);
                 return (
                   <div
                     key={seg.id}
@@ -254,19 +303,24 @@ export default function LandingExperience() {
                     style={{ pointerEvents: activeScene === seg.id ? 'auto' : 'none' }}
                     aria-hidden={activeScene !== seg.id}
                   >
-                    <SceneShell id={seg.id} productOnly={productOnly}>
+                    <SceneShell id={seg.id}>
                       <SceneBody
                         id={seg.id}
                         active={activeScene === seg.id}
                         progress={progress}
                         reducedMotion={false}
-                        hideCopy={productOnly}
                       />
                     </SceneShell>
                   </div>
                 );
               })}
             </div>
+
+            <StickySceneCopy
+              activeScene={activeScene}
+              progress={progress}
+              visible={stickyCopyVisible}
+            />
           </div>
           <ScrollProgressHint progress={progress} visible={pinActive && progress < 0.94} />
         </>

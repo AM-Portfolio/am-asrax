@@ -4,9 +4,10 @@ import { ProductScreenshot } from './ProductScreenshot';
 interface Props {
   progress?: number;
   active?: boolean;
+  stageFill?: boolean;
 }
 
-export function ProductMockPortfolio({ progress = 1, active = true }: Props) {
+export function ProductMockPortfolio({ progress = 1, active = true, stageFill = false }: Props) {
   return (
     <ProductScreenshot
       title="Portfolio"
@@ -14,6 +15,7 @@ export function ProductMockPortfolio({ progress = 1, active = true }: Props) {
       alt="ASRAX portfolio overview — returns, health score, allocation, and risk"
       progress={progress}
       active={active}
+      stageFill={stageFill}
       motion="kenBurns"
       chips={[
         { label: 'Health 78', tone: 'emerald' },

@@ -12,10 +12,8 @@ interface Props {
 export function PortfolioScene({ content, active, sceneProgress, hideCopy = false }: Props) {
   if (hideCopy) {
     return (
-      <div className="flex h-full w-full items-center justify-end">
-        <div data-product-panel className="w-full max-w-xl lg:max-w-none lg:w-[min(100%,34rem)] xl:w-[min(100%,38rem)]">
-          <ProductMockPortfolio progress={sceneProgress} active={active} />
-        </div>
+      <div data-product-panel className="h-full w-full">
+        <ProductMockPortfolio progress={sceneProgress} active={active} stageFill />
         <p className="sr-only">{content.srSummary}</p>
       </div>
     );
