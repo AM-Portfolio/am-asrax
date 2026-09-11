@@ -118,7 +118,7 @@ export default function Navbar({ variant = 'default' }: NavbarProps) {
                 transition={{ type: 'spring', stiffness: 400, damping: 14 }}
               >
                 <img
-                  src="/logo.png"
+                  src="/asrax-mark.png"
                   alt="ASRAX"
                   className="h-10 w-10 rounded-[10px] object-cover shadow-[0_0_28px_rgba(56,189,248,0.35)]"
                   width={40}

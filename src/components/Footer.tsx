@@ -9,7 +9,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="group mb-4 flex items-center gap-2.5">
               <img
-                src="/logo.png"
+                src="/asrax-mark.png"
                 alt="ASRAX Logo"
                 className="h-10 w-10 rounded-[10px] object-cover opacity-95 transition-opacity group-hover:opacity-100 shadow-[0_0_20px_rgba(56,189,248,0.2)]"
                 width={40}
