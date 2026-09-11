@@ -1,7 +1,11 @@
 # Prod overlay for am-asrax marketing site
+# Must use traefik — cluster has no nginx IngressClass; Cloudflare tunnel fronts Traefik.
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
   hosts:
     - host: asrax.in
       paths:

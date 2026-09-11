@@ -33,12 +33,13 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-# Ingress configuration
+# Ingress configuration (cluster IngressClass is traefik only)
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
   hosts:
     - host: asrax.local
       paths:
