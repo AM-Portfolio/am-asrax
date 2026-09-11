@@ -11,7 +11,7 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="ASRAX Logo"
-                className="h-10 w-10 rounded-xl object-cover opacity-95 transition-opacity group-hover:opacity-100"
+                className="h-10 w-10 rounded-[10px] object-cover opacity-95 transition-opacity group-hover:opacity-100 shadow-[0_0_20px_rgba(56,189,248,0.2)]"
                 width={40}
                 height={40}
                 decoding="async"

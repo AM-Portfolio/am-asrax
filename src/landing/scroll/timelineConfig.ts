@@ -29,24 +29,24 @@ export const SCENE_MOTION: Record<
 
 /**
  * Progress map 0–1 for the pinned story stage.
- * Product beats hold longer for word → visual settle.
+ * CLARITY (network) is a short bridge; product beats hold longer.
  */
 export const SCENE_SEGMENTS: SceneSegment[] = [
-  { id: 'handshake', start: 0.0, end: 0.14 },
-  { id: 'network', start: 0.14, end: 0.24 },
-  { id: 'dashboard', start: 0.24, end: 0.4 },
-  { id: 'portfolio', start: 0.4, end: 0.56 },
-  { id: 'trade', start: 0.56, end: 0.7 },
-  { id: 'market', start: 0.7, end: 0.84 },
-  { id: 'aiChat', start: 0.84, end: 0.93 },
-  { id: 'cta', start: 0.93, end: 1.0 },
+  { id: 'handshake', start: 0.0, end: 0.11 },
+  { id: 'network', start: 0.11, end: 0.17 },
+  { id: 'dashboard', start: 0.17, end: 0.34 },
+  { id: 'portfolio', start: 0.34, end: 0.48 },
+  { id: 'trade', start: 0.48, end: 0.64 },
+  { id: 'market', start: 0.64, end: 0.78 },
+  { id: 'aiChat', start: 0.78, end: 0.9 },
+  { id: 'cta', start: 0.9, end: 1.0 },
 ];
 
-/** Viewport heights of scroll for the pinned story (desktop). */
-export const PIN_SCROLL_VH = 820;
+/** Viewport heights of scroll for the pinned story (desktop) — shorter = less wheel fatigue. */
+export const PIN_SCROLL_VH = 560;
 
 /** Shorter pin distance on smaller viewports when pin is enabled. */
-export const PIN_SCROLL_VH_COMPACT = 600;
+export const PIN_SCROLL_VH_COMPACT = 420;
 
 export function sceneAtProgress(progress: number): ProductSceneId {
   const p = Math.min(1, Math.max(0, progress));

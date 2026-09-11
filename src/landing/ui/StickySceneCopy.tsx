@@ -22,19 +22,32 @@ interface StickySceneCopyProps {
 
 /**
  * Reference-video chrome: giant centered word + calm corner copy.
- * Product visuals morph underneath inside the floating frame.
+ * Bridge beats (CLARITY) get a one-line meaning + soft handoff into product.
  */
 export function StickySceneCopy({ activeScene, progress, visible }: StickySceneCopyProps) {
   const show = visible && STICKY_COPY_SCENES.includes(activeScene);
   const content = PRODUCT_SCENES.find((s) => s.id === activeScene);
   const local = content ? segmentProgress(progress, content.id) : 1;
 
-  // Word hits sharp, then yields so the product UI reads (reference rhythm)
-  const wordIn = Math.min(1, local / 0.18);
-  const wordOut = local > 0.28 ? Math.min(1, (local - 0.28) / 0.32) : 0;
-  const wordOpacity = Math.max(0, wordIn * 0.92 - wordOut * 0.82);
-  const wordBlur = (1 - wordIn) * 6 + wordOut * 4;
+  // Word hits sharp, then fully fades so product UI reads (no ghost floor)
+  const wordIn = Math.min(1, local / 0.16);
+  const wordOut = local > 0.22 ? Math.min(1, (local - 0.22) / 0.28) : 0;
+  const wordOpacity = Math.max(0, wordIn * 0.95 - wordOut * 1.05);
+  const wordBlur = (1 - wordIn) * 6 + wordOut * 8;
+  const showWord = wordOpacity > 0.02;
   const cornerOpacity = Math.min(1, Math.max(0, (local - 0.12) / 0.28));
+
+  // Bridge subtitle under CLARITY — readable while word is strong
+  const lineOpacity =
+    content?.heroLine != null
+      ? Math.max(0, Math.min(1, wordIn) * 0.95 - Math.max(0, wordOut - 0.1) * 1.4)
+      : 0;
+
+  // Soft handoff near end of bridge beat only (dies before next scene)
+  const handoffOpacity =
+    content?.handoffHint != null
+      ? Math.min(1, Math.max(0, (local - 0.5) / 0.25)) * Math.max(0, 1 - Math.max(0, (local - 0.88) / 0.12))
+      : 0;
 
   return (
     <div className="pointer-events-none absolute inset-0 z-30" aria-hidden={!show}>
@@ -48,9 +61,9 @@ export function StickySceneCopy({ activeScene, progress, visible }: StickySceneC
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease }}
           >
-            {/* Giant tracked hero word — peaks early, then softens away */}
-            {content.heroWord ? (
-              <div className="absolute inset-0 flex items-center justify-center px-6 pb-8">
+            {/* Giant tracked hero word — peaks early, then fully fades (no ghost) */}
+            {content.heroWord && showWord ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-6 pb-10">
                 <motion.p
                   className="font-display max-w-full select-none text-center text-[clamp(3.25rem,11vw,8.5rem)] font-semibold uppercase leading-none text-white"
                   style={{
@@ -69,12 +82,36 @@ export function StickySceneCopy({ activeScene, progress, visible }: StickySceneC
                 >
                   {content.heroWord}
                 </motion.p>
+
+                {content.heroLine && lineOpacity > 0.02 ? (
+                  <motion.p
+                    className="mt-4 max-w-md text-center text-sm font-medium tracking-wide text-slate-200/90 md:text-base"
+                    style={{ opacity: lineOpacity }}
+                    initial={false}
+                    animate={{ y: (1 - Math.min(1, wordIn)) * 10 }}
+                    transition={{ duration: 0.35, ease }}
+                  >
+                    {content.heroLine}
+                  </motion.p>
+                ) : null}
+
+                {content.handoffHint && handoffOpacity > 0.02 ? (
+                  <motion.p
+                    className="mt-6 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-electric-sky md:text-xs"
+                    style={{ opacity: handoffOpacity }}
+                    initial={false}
+                    animate={{ y: (1 - handoffOpacity) * 8 }}
+                    transition={{ duration: 0.3, ease }}
+                  >
+                    {content.handoffHint}
+                  </motion.p>
+                ) : null}
               </div>
             ) : null}
 
             {/* Calm corner copy — bottom-left of stage */}
             <motion.div
-              className="absolute bottom-6 left-6 max-w-[16rem] md:bottom-8 md:left-8 md:max-w-sm"
+              className="absolute bottom-20 left-6 max-w-[16rem] md:bottom-24 md:left-8 md:max-w-sm"
               style={{ opacity: cornerOpacity }}
               initial={false}
               animate={{ y: (1 - cornerOpacity) * 12 }}

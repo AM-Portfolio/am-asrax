@@ -10,17 +10,17 @@ interface Props {
 export function ProductMockTrade({ progress = 1, active = true, stageFill = false }: Props) {
   return (
     <ProductScreenshot
-      title="Trade journal"
+      title="Paper trading"
       src={PRODUCT_SHOTS.trade}
-      alt="ASRAX trade journal — trade detail, templates, analytics, and metrics"
+      alt="ASRAX paper trading — market overview, fundamentals, and paper-cash practice orders"
       progress={progress}
       active={active}
       stageFill={stageFill}
       motion="kenBurns"
       chips={[
-        { label: 'Journal', tone: 'sky' },
-        { label: 'Calendar', tone: 'amber' },
-        { label: 'Metrics', tone: 'emerald' },
+        { label: 'Paper cash', tone: 'emerald' },
+        { label: 'Practice orders', tone: 'sky' },
+        { label: 'No real money', tone: 'amber' },
       ]}
     />
   );

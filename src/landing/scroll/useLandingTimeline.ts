@@ -110,7 +110,7 @@ export function useLandingTimeline(
               start: 'top top',
               end: `+=${vh}%`,
               pin: stage,
-              scrub: 0.85,
+              scrub: 0.55,
               anticipatePin: 1,
               invalidateOnRefresh: true,
               onUpdate: (self) => {
@@ -130,7 +130,7 @@ export function useLandingTimeline(
               trigger: root,
               start: 'top top',
               end: `+=${vh}%`,
-              scrub: 0.85,
+              scrub: 0.55,
               invalidateOnRefresh: true,
             },
           });

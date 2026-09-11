@@ -51,10 +51,9 @@ export function FinalCtaScene({ content, active, sceneProgress = 1 }: Props) {
           onClick={() => scrollToId('about')}
           className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-bold text-white hover:bg-white/10"
         >
-          Continue scrolling
+          Continue to About
         </button>
       </motion.div>
-      <p className="mt-6 text-xs text-slate-500">Keep scrolling for About, Features, and Careers</p>
       <p className="sr-only">{content.srSummary}</p>
     </div>
   );

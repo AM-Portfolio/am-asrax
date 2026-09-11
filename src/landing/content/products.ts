@@ -26,9 +26,24 @@ export interface ProductSceneContent {
   body: string;
   /** Giant cinematic word (MachinaFusion-style beat) — optional */
   heroWord?: string;
+  /** Short line under the giant word (bridge beats) */
+  heroLine?: string;
+  /** Late-in-segment cue toward the next beat */
+  handoffHint?: string;
   /** Screen-reader summary of the visual */
   srSummary: string;
 }
+
+/** Compact journey labels for the pin progress rail (UX map of the story). */
+export const STORY_RAIL: readonly { id: ProductSceneId; label: string }[] = [
+  { id: 'handshake', label: 'Connect' },
+  { id: 'network', label: 'Clarity' },
+  { id: 'dashboard', label: 'See' },
+  { id: 'portfolio', label: 'Own' },
+  { id: 'trade', label: 'Learn' },
+  { id: 'market', label: 'Explore' },
+  { id: 'aiChat', label: 'Ask' },
+] as const;
 
 export const PRODUCT_SCENES: ProductSceneContent[] = [
   {
@@ -41,10 +56,12 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
   {
     id: 'network',
     eyebrow: 'Intelligence',
-    title: 'Energy becomes clarity.',
-    body: 'Scattered signals organize into a living network — your financial world, mapped.',
+    title: 'Scattered signals become a map.',
+    body: 'After you connect, clarity forms — noise turns into a living network of what matters in your financial world.',
     heroWord: 'CLARITY',
-    srSummary: 'An energy network of nodes coalescing into organized intelligence.',
+    heroLine: 'Noise becomes a map of your money.',
+    handoffHint: 'Now see it clearly →',
+    srSummary: 'An energy network of nodes coalescing into organized intelligence — the story bridge into product.',
   },
   {
     id: 'dashboard',
@@ -64,11 +81,12 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
   },
   {
     id: 'trade',
-    eyebrow: 'Trade journal',
-    title: 'Learn from every decision.',
-    body: 'Journal, calendar, and metrics that help you improve — not a broker execution desk.',
+    eyebrow: 'Paper trading',
+    title: 'Learn without risk.',
+    body: 'Practice buys and sells with paper cash — then review what you learned. Simulated only, not live broker execution.',
     heroWord: 'LEARN',
-    srSummary: 'Trade journal calendar and performance metrics. Not order execution.',
+    srSummary:
+      'Paper trading workspace with market overview, fundamentals, and a paper-cash order ticket for practice.',
   },
   {
     id: 'market',
@@ -90,7 +108,7 @@ export const PRODUCT_SCENES: ProductSceneContent[] = [
     id: 'cta',
     eyebrow: 'ASRAX',
     title: 'Finance, understood. Just ask.',
-    body: 'Open the app, or keep scrolling for About, Features, and Careers.',
+    body: 'Open the app to try paper trading and portfolio intelligence — or continue below for About, Features, and Careers.',
     srSummary: 'Final call to action, then continuous scroll into About, Features, and Careers.',
   },
 ];
@@ -106,17 +124,17 @@ export const AI_CHAT_DEMO = {
 } as const;
 
 export const FEATURE_IMAGES = {
-  market: '/assets/products/market-overview.png',
+  market: '/assets/products/market-fundamentals.png',
   portfolio: '/assets/products/portfolio.jpg',
-  journal: '/assets/products/trade-journal.jpg',
+  paperTrading: '/assets/products/paper-trading.png',
   dashboard: '/assets/products/dashboard-home.png',
 } as const;
 
 export const PRODUCT_SHOTS = {
   dashboard: '/assets/products/dashboard-home.png',
   portfolio: '/assets/products/portfolio.jpg',
-  trade: '/assets/products/trade-journal.jpg',
-  market: '/assets/products/market-overview.png',
+  trade: '/assets/products/paper-trading.png',
+  market: '/assets/products/market-fundamentals.png',
   marketWatchlist: '/assets/products/market-watchlist.jpg',
 } as const;
 

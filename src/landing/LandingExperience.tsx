@@ -175,7 +175,7 @@ export default function LandingExperience() {
 
   const stacked = reducedMotion || !isDesktop;
   const stickyCopyVisible =
-    pinActive && STICKY_COPY_SCENES.includes(activeScene) && progress < 0.92;
+    pinActive && STICKY_COPY_SCENES.includes(activeScene) && progress < 0.9;
   const showStageFrame = stickyCopyVisible;
 
   const frameScenes = SCENE_SEGMENTS.filter((s) => STICKY_COPY_SCENES.includes(s.id));
@@ -322,7 +322,7 @@ export default function LandingExperience() {
               visible={stickyCopyVisible}
             />
           </div>
-          <ScrollProgressHint progress={progress} visible={pinActive && progress < 0.94} />
+          <ScrollProgressHint progress={progress} visible={pinActive && progress < 0.9} />
         </>
       )}
 

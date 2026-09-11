@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
-import { ArrowRight, BarChart3, PieChart, CalendarDays, Bot } from 'lucide-react';
+import { ArrowRight, BarChart3, PieChart, Wallet, LayoutDashboard } from 'lucide-react';
 import { FEATURE_IMAGES } from '../content/products';
 
 const features = [
@@ -19,18 +19,18 @@ const features = [
     icon: PieChart,
   },
   {
-    title: 'Trade journaling',
+    title: 'Paper trading',
     description:
-      'Learn from every decision with journal, calendar, and metrics — not a broker execution desk.',
-    image: FEATURE_IMAGES.journal,
-    icon: CalendarDays,
+      'Practice buys and sells with paper cash — learn without risk. Simulated only, not live broker execution.',
+    image: FEATURE_IMAGES.paperTrading,
+    icon: Wallet,
   },
   {
     title: 'Dashboard overview',
     description:
       'See everything in one place — value, performance, and movers for how you are doing today.',
     image: FEATURE_IMAGES.dashboard,
-    icon: Bot,
+    icon: LayoutDashboard,
   },
 ];
 
@@ -112,7 +112,7 @@ export default function FeaturesSection() {
               See everything as you scroll
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-slate-300">
-              Portfolio, market, journal, and AI chat — one financial intelligence workspace.
+              Portfolio, market, paper trading, and AI chat — one financial intelligence workspace.
             </p>
           </motion.div>
         </div>

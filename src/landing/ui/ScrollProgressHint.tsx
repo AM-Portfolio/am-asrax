@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
-import { PRODUCT_SCENES, type ProductSceneId } from '../content/products';
+import { STORY_RAIL } from '../content/products';
 import { sceneAtProgress } from '../scroll/timelineConfig';
 
 interface ScrollProgressHintProps {
@@ -8,29 +8,55 @@ interface ScrollProgressHintProps {
   visible?: boolean;
 }
 
+/** Single progress chrome: story rail + bar (no duplicate · N/8 label). */
 export function ScrollProgressHint({ progress, visible = true }: ScrollProgressHintProps) {
   const sceneId = sceneAtProgress(progress);
-  // Hide on final CTA / after pin so About isn't under a stale "8/8" chip
-  if (!visible || progress >= 0.94 || sceneId === 'cta') return null;
+  if (!visible || progress >= 0.91 || sceneId === 'cta') return null;
 
-  const scene = PRODUCT_SCENES.find((s) => s.id === sceneId);
-  const label = sceneLabel(sceneId, scene?.eyebrow);
+  const activeRailIdx = STORY_RAIL.findIndex((s) => s.id === sceneId);
 
   return (
     <div
-      className="pointer-events-none fixed bottom-6 left-1/2 z-40 flex -translate-x-1/2 flex-col items-center gap-2"
+      className="pointer-events-none fixed bottom-5 left-1/2 z-40 flex w-[min(92vw,40rem)] -translate-x-1/2 flex-col items-center gap-2.5"
       aria-hidden
     >
-      <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-        {label}
-      </p>
-      <div className="h-1 w-32 overflow-hidden rounded-full bg-white/10">
+      <div className="flex max-w-full flex-wrap items-center justify-center gap-x-1.5 gap-y-1 px-2 sm:gap-x-2">
+        {STORY_RAIL.map((step, i) => {
+          const active = step.id === sceneId;
+          const past = activeRailIdx >= 0 && i < activeRailIdx;
+          return (
+            <div key={step.id} className="flex items-center gap-1.5 sm:gap-2">
+              {i > 0 ? (
+                <span
+                  className={`hidden h-px w-2 sm:block sm:w-3 ${
+                    past || active ? 'bg-electric-sky/50' : 'bg-white/15'
+                  }`}
+                  aria-hidden
+                />
+              ) : null}
+              <span
+                className={
+                  active
+                    ? 'rounded-full border border-electric-sky/50 bg-electric-sky/15 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-electric-sky sm:text-[10px]'
+                    : past
+                      ? 'px-1 text-[9px] font-medium uppercase tracking-[0.12em] text-slate-400 sm:text-[10px]'
+                      : 'px-1 text-[9px] font-medium uppercase tracking-[0.12em] text-slate-600 sm:text-[10px]'
+                }
+              >
+                {step.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="h-1 w-36 overflow-hidden rounded-full bg-white/10 sm:w-40">
         <motion.div
           className="h-full rounded-full bg-electric-sky"
           style={{ width: `${Math.round(progress * 100)}%` }}
         />
       </div>
-      {progress < 0.08 && (
+      {progress < 0.07 && (
         <motion.div
           className="flex items-center gap-1 text-[11px] font-medium uppercase tracking-widest text-slate-400"
           animate={{ y: [0, 4, 0] }}
@@ -42,11 +68,4 @@ export function ScrollProgressHint({ progress, visible = true }: ScrollProgressH
       )}
     </div>
   );
-}
-
-function sceneLabel(id: ProductSceneId, eyebrow?: string): string {
-  const index = PRODUCT_SCENES.findIndex((s) => s.id === id);
-  const step = index >= 0 ? `${index + 1}/${PRODUCT_SCENES.length}` : '';
-  const name = eyebrow ?? id;
-  return step ? `${name} · ${step}` : name;
 }

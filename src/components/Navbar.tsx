@@ -120,7 +120,7 @@ export default function Navbar({ variant = 'default' }: NavbarProps) {
                 <img
                   src="/logo.png"
                   alt="ASRAX"
-                  className="h-10 w-10 rounded-xl object-cover shadow-[0_0_24px_rgba(56,189,248,0.25)]"
+                  className="h-10 w-10 rounded-[10px] object-cover shadow-[0_0_28px_rgba(56,189,248,0.35)]"
                   width={40}
                   height={40}
                   decoding="async"

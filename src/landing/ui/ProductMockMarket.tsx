@@ -41,15 +41,16 @@ export function ProductMockMarket({ progress = 1, active = true, stageFill = fal
           style={{ opacity: cross, zIndex: 2 }}
         >
           <ProductScreenshot
-            title="Market overview"
+            title="Stock overview"
             src={PRODUCT_SHOTS.market}
-            alt="ASRAX market overview"
+            alt="ASRAX market — stock overview with valuation, charts, financials, and shareholding"
             progress={1}
             active={active}
             stageFill
             chips={[
               { label: 'Valuation', tone: 'emerald' },
-              { label: 'Exposure', tone: 'sky' },
+              { label: 'Financials', tone: 'sky' },
+              { label: 'Shareholding', tone: 'amber' },
             ]}
           />
         </div>
@@ -71,14 +72,15 @@ export function ProductMockMarket({ progress = 1, active = true, stageFill = fal
         ]}
       />
       <ProductScreenshot
-        title="Market overview"
+        title="Stock overview"
         src={PRODUCT_SHOTS.market}
-        alt="ASRAX market overview"
+        alt="ASRAX market — stock overview with valuation, charts, financials, and shareholding"
         progress={clamp01((p - 0.28) / 0.55)}
         active={active}
         chips={[
           { label: 'Valuation', tone: 'emerald' },
-          { label: 'Exposure', tone: 'sky' },
+          { label: 'Financials', tone: 'sky' },
+          { label: 'Shareholding', tone: 'amber' },
         ]}
       />
     </div>
