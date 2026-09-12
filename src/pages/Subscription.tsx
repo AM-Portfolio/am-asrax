@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Check } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
 
 export default function Subscription() {
   const [isAnnual, setIsAnnual] = useState(true);
-  const { theme } = useTheme();
-
-  const isDark = theme === 'dark';
+  const isDark = true;
 
   const plans = [
     {

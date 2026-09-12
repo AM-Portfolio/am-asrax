@@ -1,0 +1,16 @@
+name: am-asrax
+release: am-asrax-ui
+image: ghcr.io/am-portfolio/am-asrax-ui
+runtime: node
+language: react
+dockerfile: Dockerfile
+context: .
+port: 8080
+github:
+  repo: AM-Portfolio/am-asrax
+  deploy_workflow: asrax-publish.yml
+  service: am-asrax
+  ref: main
+deploy:
+  via: helm
+  rebuild: on-change
