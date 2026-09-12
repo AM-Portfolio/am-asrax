@@ -137,7 +137,6 @@ function SceneShell({
 
 function Continuations() {
   useEffect(() => {
-    const hash = window.location.hash.replace('#', '');
     const run = async () => {
       try {
         const { ScrollTrigger } = await import('gsap/ScrollTrigger');
@@ -145,10 +144,6 @@ function Continuations() {
       } catch {
         /* optional */
       }
-      if (!hash) return;
-      window.setTimeout(() => {
-        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 160);
     };
     void run();
   }, []);

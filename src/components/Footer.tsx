@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Twitter, Linkedin, Github } from 'lucide-react';
+import { Twitter, Linkedin } from 'lucide-react';
+
+const LINKEDIN_URL =
+  'https://www.linkedin.com/company/asrax-technologies-private-limited/';
 
 export default function Footer() {
   return (
@@ -11,7 +14,7 @@ export default function Footer() {
               <img
                 src="/brand-a.png"
                 alt="ASRAX Logo"
-                className="h-10 w-10 rounded-[10px] object-cover opacity-95 transition-opacity group-hover:opacity-100 shadow-[0_0_20px_rgba(56,189,248,0.2)]"
+                className="h-10 w-10 rounded-[10px] object-cover opacity-95 shadow-[0_0_20px_rgba(56,189,248,0.2)] transition-opacity group-hover:opacity-100"
                 width={40}
                 height={40}
                 decoding="async"
@@ -25,15 +28,24 @@ export default function Footer() {
               secure, scalable, and innovative financial technology solutions.
             </p>
             <div className="mt-6 flex space-x-4">
-              {[Twitter, Linkedin, Github].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-500 transition-all hover:border-slate-700 hover:bg-slate-800/60 hover:text-electric-sky"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="ASRAX on X (Twitter)"
+                className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-500 transition-all hover:border-slate-700 hover:bg-slate-800/60 hover:text-electric-sky"
+              >
+                <Twitter size={18} />
+              </a>
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="ASRAX on LinkedIn"
+                className="rounded-full border border-slate-800/80 bg-slate-900/40 p-2 text-slate-500 transition-all hover:border-slate-700 hover:bg-slate-800/60 hover:text-electric-sky"
+              >
+                <Linkedin size={18} />
+              </a>
             </div>
           </div>
 
@@ -41,14 +53,25 @@ export default function Footer() {
             <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">Company</h3>
             <ul className="space-y-3">
               <li>
-                <a href="/#about" className="text-sm text-slate-400 transition-colors hover:text-white">
+                <Link to="/about" className="text-sm text-slate-400 transition-colors hover:text-white">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#careers" className="text-sm text-slate-400 transition-colors hover:text-white">
+                <Link
+                  to="/careers"
+                  className="text-sm text-slate-400 transition-colors hover:text-white"
+                >
                   Careers
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/features"
+                  className="text-sm text-slate-400 transition-colors hover:text-white"
+                >
+                  Features
+                </Link>
               </li>
               <li>
                 <a

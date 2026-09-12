@@ -1,6 +1,11 @@
 import FeaturesSection from '../landing/sections/FeaturesSection';
+import Footer from '../components/Footer';
 
-/** Kept for deep links — App redirects /features → /#features. */
 export default function Features() {
-  return <FeaturesSection />;
+  return (
+    <>
+      <FeaturesSection />
+      <Footer />
+    </>
+  );
 }

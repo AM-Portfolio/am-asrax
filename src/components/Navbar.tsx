@@ -1,94 +1,25 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
-import { useEffect, useState, type MouseEvent } from 'react';
+import { useState } from 'react';
 import { APP_URL } from '../landing/content/products';
 
 interface NavbarProps {
   variant?: 'default' | 'landing';
 }
 
-type SectionId = 'home' | 'about' | 'features' | 'careers';
-
-const links: { name: string; hash: string; id: SectionId }[] = [
-  { name: 'Home', hash: '', id: 'home' },
-  { name: 'About', hash: 'about', id: 'about' },
-  { name: 'Features', hash: 'features', id: 'features' },
-  { name: 'Careers', hash: 'careers', id: 'careers' },
+const links: { name: string; path: string }[] = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
+  { name: 'Features', path: '/features' },
+  { name: 'Careers', path: '/careers' },
 ];
-
-function scrollToHash(hash: string) {
-  if (!hash) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    window.history.replaceState(null, '', '/');
-    return;
-  }
-  const el = document.getElementById(hash);
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    window.history.replaceState(null, '', `#${hash}`);
-  }
-}
-
-/** Which page section is in view — drives the nav underline. */
-function useActiveSection(enabled: boolean): SectionId {
-  const [active, setActive] = useState<SectionId>('home');
-
-  useEffect(() => {
-    if (!enabled) return;
-
-    const sectionIds: SectionId[] = ['about', 'features', 'careers'];
-
-    const pick = () => {
-      const y = window.scrollY + 120; // below fixed nav
-      let current: SectionId = 'home';
-
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const top = el.offsetTop;
-        if (y >= top) current = id;
-      }
-
-      // Still in the cinematic pin / hero → Home
-      const about = document.getElementById('about');
-      if (about && window.scrollY + window.innerHeight * 0.35 < about.offsetTop) {
-        current = 'home';
-      }
-
-      setActive(current);
-    };
-
-    pick();
-    window.addEventListener('scroll', pick, { passive: true });
-    window.addEventListener('resize', pick);
-    // Pin layout settles late
-    const t1 = window.setTimeout(pick, 200);
-    const t2 = window.setTimeout(pick, 800);
-    return () => {
-      window.removeEventListener('scroll', pick);
-      window.removeEventListener('resize', pick);
-      window.clearTimeout(t1);
-      window.clearTimeout(t2);
-    };
-  }, [enabled]);
-
-  return active;
-}
 
 export default function Navbar({ variant = 'default' }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
   const overlay = variant === 'landing' || isHome;
-  const activeSection = useActiveSection(isHome);
-
-  const onNavClick = (e: MouseEvent, hash: string) => {
-    if (!isHome) return;
-    e.preventDefault();
-    setIsOpen(false);
-    scrollToHash(hash);
-  };
 
   return (
     <nav
@@ -103,16 +34,7 @@ export default function Navbar({ variant = 'default' }: NavbarProps) {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between">
           <div className="flex items-center">
-            <Link
-              to="/"
-              onClick={(e) => {
-                if (isHome) {
-                  e.preventDefault();
-                  scrollToHash('');
-                }
-              }}
-              className="group flex items-center gap-2.5"
-            >
+            <Link to="/" className="group flex items-center gap-2.5" onClick={() => setIsOpen(false)}>
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 14 }}
@@ -134,13 +56,11 @@ export default function Navbar({ variant = 'default' }: NavbarProps) {
 
           <div className="hidden items-center space-x-6 md:flex">
             {links.map((link) => {
-              const href = link.hash ? `/#${link.hash}` : '/';
-              const isActive = isHome && activeSection === link.id;
+              const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.name}
-                  to={href}
-                  onClick={(e) => onNavClick(e, link.hash)}
+                  to={link.path}
                   className={`relative rounded px-1.5 py-1 text-sm font-medium transition-all duration-200 hover:text-electric-sky ${
                     isActive
                       ? 'font-semibold text-electric-sky'
@@ -196,12 +116,12 @@ export default function Navbar({ variant = 'default' }: NavbarProps) {
         >
           <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
             {links.map((link) => {
-              const isActive = isHome && activeSection === link.id;
+              const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.name}
-                  to={link.hash ? `/#${link.hash}` : '/'}
-                  onClick={(e) => onNavClick(e, link.hash)}
+                  to={link.path}
+                  onClick={() => setIsOpen(false)}
                   className={`block rounded-lg px-3 py-2 text-base font-medium transition-all ${
                     isActive
                       ? 'bg-electric-sky/10 font-semibold text-electric-sky'

@@ -51,28 +51,29 @@ export function ProductScreenshot({
   const settle = settleProgress(progress, active);
 
   if (stageFill) {
-    // Full-bleed in the floating frame; object-top keeps app chrome readable
-    const softScale = 1.015 - settle * 0.015;
-    const softY = (1 - settle) * 6;
-    const bright = 0.88 + settle * 0.12;
+    // Fit full product UI in the frame (no edge crop) so dense dashboards stay readable
+    const softScale = 1.01 - settle * 0.01;
+    const softY = (1 - settle) * 4;
+    const bright = 0.96 + settle * 0.04;
 
     return (
       <div className={cn('relative h-full w-full overflow-hidden bg-navy-950', className)}>
         <img
           src={src}
           alt={alt}
-          className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
+          className="absolute inset-0 h-full w-full object-contain object-top will-change-transform"
           loading="lazy"
           decoding="async"
           style={{
             transform: `translate3d(0, ${softY}px, 0) scale(${softScale})`,
-            transformOrigin: 'center center',
+            transformOrigin: 'center top',
             opacity: bright,
+            filter: 'brightness(1.1) contrast(1.05)',
           }}
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/45 via-transparent to-navy-950/20"
-          style={{ opacity: Math.max(0, 0.55 - settle * 0.45) }}
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-950/25 via-transparent to-transparent"
+          style={{ opacity: Math.max(0, 0.35 - settle * 0.35) }}
           aria-hidden
         />
         {chips && chips.length > 0 ? (
@@ -135,12 +136,13 @@ export function ProductScreenshot({
           <img
             src={src}
             alt={alt}
-            className="block h-auto w-full object-cover object-top"
+            className="block h-auto w-full object-contain object-top"
             loading="lazy"
             decoding="async"
             style={{
-              transform: `translate3d(0, ${(1 - settle) * 10}px, 0) scale(${1.03 - settle * 0.03})`,
-              opacity: 0.82 + settle * 0.18,
+              transform: `translate3d(0, ${(1 - settle) * 6}px, 0) scale(${1.01 - settle * 0.01})`,
+              opacity: 0.92 + settle * 0.08,
+              filter: 'brightness(1.1) contrast(1.05)',
             }}
           />
         </div>

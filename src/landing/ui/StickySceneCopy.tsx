@@ -29,13 +29,13 @@ export function StickySceneCopy({ activeScene, progress, visible }: StickySceneC
   const content = PRODUCT_SCENES.find((s) => s.id === activeScene);
   const local = content ? segmentProgress(progress, content.id) : 1;
 
-  // Word hits sharp, then fully fades so product UI reads (no ghost floor)
-  const wordIn = Math.min(1, local / 0.16);
-  const wordOut = local > 0.22 ? Math.min(1, (local - 0.22) / 0.28) : 0;
-  const wordOpacity = Math.max(0, wordIn * 0.95 - wordOut * 1.05);
-  const wordBlur = (1 - wordIn) * 6 + wordOut * 8;
-  const showWord = wordOpacity > 0.02;
-  const cornerOpacity = Math.min(1, Math.max(0, (local - 0.12) / 0.28));
+  // Word hits sharp, then clears fast — no ghost overlay on product screenshots
+  const wordIn = Math.min(1, local / 0.1);
+  const wordOut = local > 0.14 ? Math.min(1, (local - 0.14) / 0.16) : 0;
+  const wordOpacity = Math.max(0, wordIn * 0.82 - wordOut * 1.25);
+  const wordBlur = (1 - wordIn) * 6 + wordOut * 12;
+  const showWord = wordOpacity > 0.05;
+  const cornerOpacity = Math.min(1, Math.max(0, (local - 0.1) / 0.26));
 
   // Bridge subtitle under CLARITY — readable while word is strong
   const lineOpacity =

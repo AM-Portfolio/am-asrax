@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
 import { ArrowRight, BarChart3, PieChart, Wallet, LayoutDashboard } from 'lucide-react';
-import { FEATURE_IMAGES } from '../content/products';
+import { APP_URL, FEATURE_IMAGES } from '../content/products';
 
 const features = [
   {
@@ -44,8 +44,7 @@ function FeatureRow({ feature, index }: { feature: FeatureItem; index: number })
     target: rowRef,
     offset: ['start end', 'end start'],
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], [28, -28]);
-  const imgScale = useTransform(scrollYProgress, [0, 0.45, 1], [1.06, 1, 1.03]);
+  const imgY = useTransform(scrollYProgress, [0, 1], [12, -12]);
 
   return (
     <motion.div
@@ -59,12 +58,13 @@ function FeatureRow({ feature, index }: { feature: FeatureItem; index: number })
       }`}
     >
       <div className="w-full lg:w-1/2">
-        <div className="overflow-hidden rounded-2xl border border-white/10 bg-navy-900/60 shadow-[0_30px_80px_rgba(0,0,0,0.35)]">
+        {/* object-contain + no zoom: full product UI stays visible (no aspect-video crop) */}
+        <div className="overflow-hidden rounded-2xl border border-white/15 bg-navy-900 shadow-[0_30px_80px_rgba(0,0,0,0.35),0_0_40px_rgba(56,189,248,0.08)]">
           <motion.img
             src={feature.image}
             alt={feature.title}
-            className="aspect-video w-full object-cover object-top will-change-transform"
-            style={{ y: imgY, scale: imgScale }}
+            className="h-auto w-full object-contain object-top will-change-transform"
+            style={{ y: imgY, filter: 'brightness(1.14) contrast(1.06)' }}
             loading="lazy"
             decoding="async"
           />
@@ -83,7 +83,9 @@ function FeatureRow({ feature, index }: { feature: FeatureItem; index: number })
           <h3 className="font-display text-3xl font-bold tracking-tight">{feature.title}</h3>
           <p className="mt-4 text-base leading-relaxed text-slate-400">{feature.description}</p>
           <a
-            href="https://am.asrax.in"
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-electric-sky hover:text-soft-cyan"
           >
             Open in app <ArrowRight className="h-4 w-4" />

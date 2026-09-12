@@ -1,6 +1,11 @@
 import CareersSection from '../landing/sections/CareersSection';
+import Footer from '../components/Footer';
 
-/** Kept for deep links — App redirects /careers → /#careers. */
 export default function Careers() {
-  return <CareersSection />;
+  return (
+    <>
+      <CareersSection />
+      <Footer />
+    </>
+  );
 }

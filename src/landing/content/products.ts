@@ -139,6 +139,7 @@ export const PRODUCT_SHOTS = {
 } as const;
 
 export const HANDSHAKE_VIDEO = {
-  src: '/videos/asrax-handshake.mp4',
+  // H.264 web encode of asrax-handshake-watermark-removed.mp4 (fresh path to bypass CF cache of old clip)
+  src: '/videos/asrax-handshake-nowm.mp4',
   poster: '/videos/asrax-handshake-poster.webp',
 } as const;
