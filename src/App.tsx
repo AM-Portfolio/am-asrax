@@ -6,6 +6,7 @@ import About from './pages/About';
 import Features from './pages/Features';
 import Careers from './pages/Careers';
 import Subscription from './pages/Subscription';
+import Download from './pages/Download';
 
 const SECTION_PATHS = new Set(['about', 'features', 'careers']);
 
@@ -38,6 +39,7 @@ function AppContent() {
           <Route path="/features" element={<Features />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/subscription" element={<Subscription />} />
+          <Route path="/download" element={<Download />} />
         </Routes>
       </main>
     </div>
